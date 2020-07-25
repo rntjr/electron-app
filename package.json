@@ -1,0 +1,76 @@
+{
+  "name": "electron-react-ts",
+  "version": "1.0.0",
+  "main": "./dist/main.js",
+  "author": "rntjr <rnt.jr@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm-run-all -p dev:react electron:serve",
+    "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.js --mode development && electron .",
+    "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack/react.webpack.js --mode development",
+    "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",
+    "lint": "eslint --ext .tsx,.ts,.js src/ electron/",
+    "test": "jest --passWithNoTests",
+    "build": "npm-run-all -p build:*",
+    "build:electron": "cross-env NODE_ENV=production webpack --config webpack/electron.webpack.js --mode production",
+    "build:react": "cross-env NODE_ENV=production webpack --config webpack/react.webpack.js --mode production",
+    "postinstall": "electron-builder install-app-deps",
+    "package": "yarn build && electron-builder build --publish never"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/runtime": "^7.10.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.3.3",
+    "@types/jest": "^26.0.7",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "electron": "^9.1.1",
+    "electron-builder": "^22.7.0",
+    "html-webpack-plugin": "^4.3.0",
+    "jest": "^26.1.0",
+    "json-schema-typed": "^7.0.3",
+    "npm-run-all": "^4.1.5",
+    "react-refresh": "^0.8.3",
+    "typescript": "^3.9.7",
+    "uuidv4": "^6.2.0",
+    "wait-on": "^5.1.0",
+    "webpack": "^4.44.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
+    "electron-store": "^6.0.0",
+    "electron-updater": "^4.3.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "build": {
+    "appId": "com.rntjr.electronapp",
+    "productName": "Electron App",
+    "files": [
+      "dist/"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "dmg": {
+      "icon": false
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    },
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    }
+  }
+}
